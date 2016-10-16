@@ -35,10 +35,16 @@ const testCases = [
     result: []
   },
   { 
+    name: "Simple Selctor",
+    file: "simple-selector.css",
+    result: [['.class-one']]
+  },
+  { 
     name: "Single Selctor",
     file: "single-selector.css",
-    result: [['.class-one']]
+    result: [['.class-one', '.class-two']]
   }
+
 ];
 
 testCases.map(runCase); 
