@@ -1,0 +1,25 @@
+{
+  "name": "overspecific-css",
+  "version": "0.0.0",
+  "description": "Identify unecessary css nesting by comparing to other selectors in the file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rharriso/overspecific-css.git"
+  },
+  "keywords": [
+    "css",
+    "simplification",
+    "build",
+    "lint"
+  ],
+  "author": "Ross Harrison",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rharriso/overspecific-css/issues"
+  },
+  "homepage": "https://github.com/rharriso/overspecific-css#readme"
+}
