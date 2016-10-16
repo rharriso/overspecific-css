@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/rharriso/overspecific-css#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "data-driven": "^1.2.1",
     "gulp": "^3.9.1",
     "gulp-mocha": "^3.0.1",
     "gulp-util": "^3.0.7",
