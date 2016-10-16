@@ -4,5 +4,7 @@
  *
  * Distributed under terms of the MIT license.
  */
-const hey = "HELLO";
+'use strict'
+
+require('babel-core/register');
 
