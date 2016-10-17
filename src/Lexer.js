@@ -1,6 +1,8 @@
 'use strict';
 
 import _ from 'lodash';
+import css from 'css';
+
 
 /*
  * Lexer.js
@@ -9,9 +11,9 @@ import _ from 'lodash';
  * Distributed under terms of the MIT license.
  */
 
-// match the block contents, and then sets of selectors
+// match selector components, with and without parens
 // experimenting [here](http://www.regexpal.com/)
-const REGEX = /(\{[^\}]+\})|((([^\s\,{]|>)+\s*)+)/igm;
+const SELECTOR_SPLITTER = /(([^\s]+)(\([^\)]+\))|([^\s]+))/igm;
 
 /*
  * Lexer exported as singleton
@@ -24,17 +26,11 @@ class Lexer {
    * @returns {array} array of selector
    */
   parse(cssText) {
-    var result = [];
-    var match;
-
-    while((match = REGEX.exec(cssText))){
-      if (match[2]) {
-        var selector = _.trim(match[2]).split(/\s+/);
-        result.push(selector);
-      }
-    }
-    
-    return result;
+    let obj = css.parse(cssText, {silent: true});
+    let selectors = _.flatten(_.map(obj.stylesheet.rules, 'selectors'));
+    return _.map(selectors, (selector) => {
+      return selector.match(SELECTOR_SPLITTER);
+    });
   }
 }
 
