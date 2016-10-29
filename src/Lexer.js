@@ -17,7 +17,7 @@ const SELECTOR_SPLITTER = /(([^\s]+)(\([^\)]+\))|([^\s]+))/igm;
 
 /*
  * Lexer exported as singleton
- * @class 
+ * @class
  */
 class Lexer {
   /*

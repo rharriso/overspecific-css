@@ -1,38 +1,49 @@
+const fs = require('fs');
 const gulp = require('gulp');
+const gulpUtil = require('gulp-util');
 const mocha = require('gulp-mocha');
-const gutil = require('gulp-util');
-require('babel-core/register');
+require('./test/.config');
 
-gulp.task('test', () => {
-	gulp.src('test/test.js', {read: false})
-		.pipe(mocha({reporter: 'nyan'}))
-    .on('error', swallowError)
+const NEWLINE_REGEX = /\\n/igm
+
+/**
+ * execute mocha test for passed file
+ * @param {String} testFile - test file glob to run
+ * @returns {undefined}
+ */
+function runMochaTest(testFile) {
+  if (!fs.existsSync(testFile)){
+    console.error(testFile + ' Doesn\'t exist');
+  }
+  return gulp.src(testFile)
+    .pipe(mocha({debug: true}))
+    .on('error', function (error) {
+      gulpUtil.log(error.message);
+      if (error.stack) {
+        gulpUtil.log(error.stack.replace(NEWLINE_REGEX, '\n'));
+      }
+    });
+}
+
+// mocha testing
+gulp.task('test', function (){
+  runMochaTest('./test/**/*.spec.js');
 });
 
-gulp.task('test-watch', () => {
-  gulp.start('test');
-  printWatchMessage();
+gulp.task('test:watch', ['test'], function (){
+  gulpUtil.log('watching for changes');
 
-	gulp.watch(['src/**/*', 'test/**/*'], (vinyl) => {
-    console.log('running tests');
-	  console.log(vinyl);	
-	  console.log(vinyl.path);	
-	  console.log(vinyl.event);	
+  gulp.watch(['./test/**/*.spec.js'], function (file){
+    var testFile = file.path.replace(__dirname, '.');
+    gulpUtil.log('Running: ' + testFile);
+    runMochaTest(testFile);
+  });
 
-    gulp.src('test/test.js', {read: false})
-      .pipe(mocha({reporter: 'nyan'}))
-      .on('error', swallowError)
-    printWatchMessage();
-	})
-})
-
-function printWatchMessage () {
-    gutil.log('');
-    gutil.log('Watching for changes in src');
-    gutil.log('===========================');
-    gutil.log('');
-}
-
-function swallowError (error) {
-  console.error(error.toString())
-}
+  gulp.watch(['./src/**/*.js', './src/**/*.jsx'], function (file){
+    var testFile = file.path.replace(__dirname, '.')
+                        .replace('/src/', '/test/')
+                        .replace(/\.jsx?$/, '.spec.js');
+    gulpUtil.log('Running: ' + testFile);
+    runMochaTest(testFile);
+  });
+});

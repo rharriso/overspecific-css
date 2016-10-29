@@ -1,5 +1,3 @@
-'use strict';
-
 import assert from 'assert';
 import { expect } from 'chai';
 import _ from 'lodash';
@@ -9,8 +7,8 @@ import fs from 'fs'
 
 
 function runCase (testCase) {
-  describe('Lexer', () => { 
-    describe('#parse(cssText)', () => { 
+  describe('Lexer', () => {
+    describe(`#parse ${testCase.name}`, () => {
       it(testCase.name, (done) => {
         const fixtureFile = './test/fixtures/Lexer/'+testCase.file;
 
@@ -34,12 +32,12 @@ const testCases = [
     file: "empty.css",
     result: []
   },
-  { 
+  {
     name: "Simple Selctor",
     file: "simple-selector.css",
     result: [['.class-one']]
   },
-  { 
+  {
     name: "Single Selctor",
     file: "single-selector.css",
     result: [['.class-one', '.class-two']]
@@ -47,4 +45,4 @@ const testCases = [
 
 ];
 
-testCases.map(runCase); 
+testCases.map(runCase);
